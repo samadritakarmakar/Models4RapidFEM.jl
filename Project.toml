@@ -1,0 +1,12 @@
+name = "Models4RapidFEM"
+uuid = "86ab4ad0-c98a-48f6-b433-10bc0e9bbb00"
+authors = ["sam <samadritakarmakar@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Einsum = "b7d42ee7-0b51-5a75-98ca-779d3107e4c0"
+LargeDefs = "26e61d48-c400-42ae-8c4b-b787bba07d49"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+RapidFEM = "845bbcf8-0925-49a4-8eb3-5fd4eb0a75d5"
+SaveFemIpState = "273f3385-de66-4d80-8dc9-d53f56fb7933"
+Tensors = "48a634ad-e948-5137-8d70-aa71f2a747f4"
