@@ -67,9 +67,9 @@ version = "0.3.0"
 
 [[deps.Compat]]
 deps = ["Dates", "LinearAlgebra", "UUIDs"]
-git-tree-sha1 = "3ca828fe1b75fa84b021a7860bd039eaea84d2f2"
+git-tree-sha1 = "aaabba4ce1b7f8a9b34c015053d3b1edf60fa49c"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.3.0"
+version = "4.4.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -235,9 +235,9 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "94d9c52ca447e23eac0c0f074effbcd38830deb5"
+git-tree-sha1 = "946607f84feb96220f480e0422d3484c49c00239"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.18"
+version = "0.3.19"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
@@ -327,7 +327,7 @@ uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [[deps.RapidFEM]]
 deps = ["Combinatorics", "Documenter", "FEMSparse", "FastGaussQuadrature", "ForwardDiff", "IterativeSolvers", "LinearAlgebra", "Preconditioners", "SparseArrays", "WriteVTK"]
-git-tree-sha1 = "d6eaa2384ed1bb7de25d273920b6081993070fcc"
+git-tree-sha1 = "873add62df351d489a1a0792586e5f1a0e18a0fa"
 repo-rev = "master"
 repo-url = "https://github.com/samadritakarmakar/RapidFEM.jl"
 uuid = "845bbcf8-0925-49a4-8eb3-5fd4eb0a75d5"
@@ -383,9 +383,9 @@ version = "2.1.7"
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "Random", "StaticArraysCore", "Statistics"]
-git-tree-sha1 = "f86b3a049e5d05227b10e15dbb315c5b90f14988"
+git-tree-sha1 = "4e051b85454b4e4f66e6a6b7bdc452ad9da3dcf6"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.5.9"
+version = "1.5.10"
 
 [[deps.StaticArraysCore]]
 git-tree-sha1 = "6b7ba252635a5eff6a0b0664a41ee140a1c9e72a"
@@ -408,9 +408,9 @@ version = "1.10.1"
 
 [[deps.Tensors]]
 deps = ["ForwardDiff", "LinearAlgebra", "SIMD", "StaticArrays", "Statistics"]
-git-tree-sha1 = "2aeb143305a3ff33d3241263d13d14db64948a2d"
+git-tree-sha1 = "c35a4666a7b0aa7e0c30c7957d9de39f17b19d39"
 uuid = "48a634ad-e948-5137-8d70-aa71f2a747f4"
-version = "1.12.0"
+version = "1.13.0"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
