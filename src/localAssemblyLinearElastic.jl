@@ -7,7 +7,7 @@ function ∇v_C_∇u!(K::Array{Float64, 2}, passedData::T, problemDim::Int64, el
         ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
         dΩ = get_dΩ(element, ∂X_∂ξ, shapeFunction, ipNo)
         ∂ϕ_∂X = get_∂ϕ_∂x(element, ∂X_∂ξ, shapeFunction, ipNo)
-        for l = 1:size(C, 4)
+        for l = 1:size(∂ϕ_∂X, 2)
             for j = 1:size(∂ϕ_∂X, 2)
                 for b = 1:noOfNodes
                     for k = 1:problemDim
@@ -30,16 +30,16 @@ end
 function gaussianStress(passedData::T, solAtNodes::Array{Float64, 1}, problemDim::Int64, element::AbstractElement, elementNo::Int64, shapeFunction::Array{ShapeFunction}, coordArray::Array{Float64, 2}; kwargs4function...) where T
     begin
         noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
-        noOfNodes = getNoOfElementNodes(shapeFunction)
-        (C, lastSol_u) = passedData
+        #noOfNodes = getNoOfElementNodes(shapeFunction)
+        C = passedData
         σ = zeros(noOfIpPoints, 3, 3)
-        u_Nodes = getSolAtElement(lastSol_u, element, problemDim)
+        u_Nodes = solAtNodes
         for ipNo::Int64 = 1:noOfIpPoints
             ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
             ∂ϕ_∂X = get_∂ϕ_∂x(element, ∂X_∂ξ, shapeFunction, ipNo)
             ∂u_∂X = get_∂u_∂x(u_Nodes, ∂ϕ_∂X, Int64(length(u_Nodes) / size(∂ϕ_∂X, 1)))
-            for l = 1:size(C, 4)
-                for k = 1:size(C, 3)
+            for l = 1:size(∂ϕ_∂X, 2)
+                for k = 1:size(∂ϕ_∂X, 2)
                     for j = 1:problemDim
                         for i = 1:problemDim
                             σ[ipNo, i, j] += C[i, j, k, l] * 0.5 * (∂u_∂X[k, l] + ∂u_∂X[l, k])
@@ -56,10 +56,10 @@ end
 function gaussianStrain(passedData::T, solAtNodes::Array{Float64, 1}, problemDim::Int64, element::AbstractElement, elementNo::Int64, shapeFunction::Array{ShapeFunction}, coordArray::Array{Float64, 2}; kwargs4function...) where T
     begin
         noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
-        noOfNodes = getNoOfElementNodes(shapeFunction)
-        (C, lastSol_u) = passedData
+        #noOfNodes = getNoOfElementNodes(shapeFunction)
+        #(C, lastSol_u) = passedData
         ϵ = zeros(noOfIpPoints, 3, 3)
-        u_Nodes = getSolAtElement(lastSol_u, element, problemDim)
+        u_Nodes = solAtNodes
         for ipNo::Int64 = 1:noOfIpPoints
             ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
             ∂ϕ_∂X = get_∂ϕ_∂x(element, ∂X_∂ξ, shapeFunction, ipNo)
