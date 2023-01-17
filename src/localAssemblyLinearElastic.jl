@@ -82,3 +82,25 @@ function createElasticTensor(E::Float64, ν::Float64)
     C += 2 * μ * one(SymmetricTensor{4, 3, Float64})
     return C
 end
+
+"""Function to create Plane Stress 2D Elastic Tensor for Linear Elastic Isotropic Materials"""
+function createPlaneStressElasticTensor(E::Float64, ν::Float64)
+    m_n(m::Int,n::Int) = 10*m+n
+    c = E/(1-ν^2)
+    C(i::Int,j::Int,k::Int,l::Int) = begin
+        ij = m_n(i,j)
+        kl = m_n(k,l)
+        if i == j && k == l
+            if ij == kl
+                return c*ν
+            else
+                return c
+            end
+        elseif i != j && k != l && ij == kl
+            return (1.0-ν)/2.0
+        end
+        return 0.0
+    end
+    return SymmetricTensor{4,2, Float64}(C)
+end
+
