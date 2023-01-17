@@ -92,9 +92,9 @@ function createPlaneStressElasticTensor(E::Float64, ν::Float64)
         kl = m_n(k,l)
         if i == j && k == l
             if ij == kl
-                return c*ν
-            else
                 return c
+            else
+                return c*ν
             end
         elseif i != j && k != l && ij == kl
             return c*(1.0-ν)/2.0
