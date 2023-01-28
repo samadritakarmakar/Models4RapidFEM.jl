@@ -75,16 +75,16 @@ function gaussianStrain(passedData::T, solAtNodes::Array{Float64, 1}, problemDim
 end
 
 
-"""Function to find twice strain energy at gauss points in Linear Elastic Problems."""
-function gaussTwiceLinStrainEnergy(passedData::T, solAtNodes::Array{Float64, 1}, problemDim::Int64, 
-    element::AbstractElement, elementNo::Int64, shapeFunction::Array{ShapeFunction}, 
-    coordArray::Array{Float64, 2}; kwargs4function...) where T
+"""Function to find twice strain energy at gauss points in Linear Elastic Problems.
+    Needs (𝐂, u_allNodes). Use assembleScalar! for this function."""
+function gaussTwiceLinStrainEnergy(passedData::T, problemDim::Int64, element::AbstractElement, 
+    elementNo::Int64, shapeFunction::Array{ShapeFunction}, coordArray::Array{Float64, 2}; kwargs4function...) where T
 
     noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
     #noOfNodes = getNoOfElementNodes(shapeFunction)
-    C = passedData
+    C, completeSol = passedData
     ϵ = zeros(noOfIpPoints, 3, 3)
-    u_Nodes = solAtNodes
+    u_Nodes = getSolAtElement(completeSol, element, problemDim)
     E = 0.0
     for ipNo::Int64 = 1:noOfIpPoints
         ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
