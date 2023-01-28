@@ -93,7 +93,7 @@ function gaussTwiceLinStrainEnergy(E::Vector{Float64}, passedData::T, problemDim
         ∂u_∂X = get_∂u_∂x(u_Nodes, ∂ϕ_∂X, Int64(length(u_Nodes) / size(∂ϕ_∂X, 1)))
         for l = 1:solDim
             for k = 1:solDim
-                ϵ[ipNo, k, l] += 0.5 * (∂u_∂X[k, l] + ∂u_∂X[l, k])
+                ϵ[k, l] += 0.5 * (∂u_∂X[k, l] + ∂u_∂X[l, k])
             end
         end
         @einsum σ[i,j] := C[i,j,k,l] * ϵ[k,l]
