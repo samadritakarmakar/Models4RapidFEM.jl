@@ -85,8 +85,10 @@ function gaussTwiceLinStrainEnergy(passedData::T, solAtNodes::Array{Float64, 1},
     C = passedData
     ϵ = zeros(noOfIpPoints, 3, 3)
     u_Nodes = solAtNodes
+    E = 0.0
     for ipNo::Int64 = 1:noOfIpPoints
         ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
+        dΩ = get_dΩ(element, ∂X_∂ξ, shapeFunction, ipNo)
         ∂ϕ_∂X = get_∂ϕ_∂x(element, ∂X_∂ξ, shapeFunction, ipNo)
         ∂u_∂X = get_∂u_∂x(u_Nodes, ∂ϕ_∂X, Int64(length(u_Nodes) / size(∂ϕ_∂X, 1)))
         for l = 1:problemDim
@@ -95,7 +97,9 @@ function gaussTwiceLinStrainEnergy(passedData::T, solAtNodes::Array{Float64, 1},
             end
         end
         @einsum σ[i,j] := C[i,j,k,l] * ϵ[k,l]
-    return dot(ϵ, σ)
+        E += dot(ϵ, σ)*dΩ
+    end
+    return [E]
 end
 
 """Function to create Elastic Tensor for Linear Elastic Isotropic Materials"""
