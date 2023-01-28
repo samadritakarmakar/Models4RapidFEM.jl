@@ -77,29 +77,29 @@ end
 
 """Function to find twice strain energy at gauss points in Linear Elastic Problems.
     Needs (𝐂, u_allNodes). Use assembleScalar! for this function."""
-function gaussTwiceLinStrainEnergy(passedData::T, problemDim::Int64, element::AbstractElement, 
+function gaussTwiceLinStrainEnergy(E::Vector{Float64}, passedData::T, problemDim::Int64, element::AbstractElement, 
     elementNo::Int64, shapeFunction::Array{ShapeFunction}, coordArray::Array{Float64, 2}; kwargs4function...) where T
 
     noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
     #noOfNodes = getNoOfElementNodes(shapeFunction)
     C, completeSol = passedData
+    solDim = size(coordArray, 1)
     ϵ = zeros(noOfIpPoints, 3, 3)
-    u_Nodes = getSolAtElement(completeSol, element, problemDim)
-    E = 0.0
+    u_Nodes = getSolAtElement(completeSol, element, solDim)
     for ipNo::Int64 = 1:noOfIpPoints
         ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
         dΩ = get_dΩ(element, ∂X_∂ξ, shapeFunction, ipNo)
         ∂ϕ_∂X = get_∂ϕ_∂x(element, ∂X_∂ξ, shapeFunction, ipNo)
         ∂u_∂X = get_∂u_∂x(u_Nodes, ∂ϕ_∂X, Int64(length(u_Nodes) / size(∂ϕ_∂X, 1)))
-        for l = 1:problemDim
-            for k = 1:problemDim
+        for l = 1:solDim
+            for k = 1:solDim
                 ϵ[ipNo, k, l] += 0.5 * (∂u_∂X[k, l] + ∂u_∂X[l, k])
             end
         end
         @einsum σ[i,j] := C[i,j,k,l] * ϵ[k,l]
-        E += dot(ϵ, σ)*dΩ
+        E[1] += dot(ϵ, σ)*dΩ
     end
-    return [E]
+    return E
 end
 
 """Function to create Elastic Tensor for Linear Elastic Isotropic Materials"""
