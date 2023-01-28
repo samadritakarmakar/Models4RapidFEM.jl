@@ -84,7 +84,7 @@ function gaussTwiceLinStrainEnergy(E::Vector{Float64}, passedData::T, problemDim
     #noOfNodes = getNoOfElementNodes(shapeFunction)
     C, completeSol = passedData
     solDim = size(coordArray, 1)
-    ϵ = zeros(noOfIpPoints, 3, 3)
+    ϵ = zeros(noOfIpPoints, solDim, solDim)
     u_Nodes = getSolAtElement(completeSol, element, solDim)
     for ipNo::Int64 = 1:noOfIpPoints
         ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
