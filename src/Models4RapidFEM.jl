@@ -9,7 +9,7 @@ include("localAssemblyUpdatedHyperPlaneStrain2.jl")
 #From localBodyExternalForce
 export v_S!, v_F!
 #from localAssemblyLinearElastic
-export ∇v_C_∇u!, gaussianStress, gaussianStrain, createElasticTensor
+export ∇v_C_∇u!, gaussianStress, gaussianStrain, gaussTwiceLinStrainEnergy, createElasticTensor
 export createPlaneStressElasticTensor
 #from localAssemblyHyperElastic
 export δE_Cᵀ_ΔE!, δE_S_ΔE!, δE_S!

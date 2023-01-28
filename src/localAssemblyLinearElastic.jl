@@ -26,7 +26,7 @@ function ∇v_C_∇u!(K::Array{Float64, 2}, passedData::T, problemDim::Int64, el
     end
 end
 
-"""Function to stress at gauss points in Linear Elastic Problems."""
+"""Function to find stress at gauss points in Linear Elastic Problems."""
 function gaussianStress(passedData::T, solAtNodes::Array{Float64, 1}, problemDim::Int64, element::AbstractElement, elementNo::Int64, shapeFunction::Array{ShapeFunction}, coordArray::Array{Float64, 2}; kwargs4function...) where T
     begin
         noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
@@ -52,7 +52,7 @@ function gaussianStress(passedData::T, solAtNodes::Array{Float64, 1}, problemDim
     return σ
 end
 
-"""Function to strain at gauss points in Linear Elastic Problems."""
+"""Function to find strain at gauss points in Linear Elastic Problems."""
 function gaussianStrain(passedData::T, solAtNodes::Array{Float64, 1}, problemDim::Int64, element::AbstractElement, elementNo::Int64, shapeFunction::Array{ShapeFunction}, coordArray::Array{Float64, 2}; kwargs4function...) where T
     begin
         noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
@@ -72,6 +72,30 @@ function gaussianStrain(passedData::T, solAtNodes::Array{Float64, 1}, problemDim
         end
     end
     return ϵ
+end
+
+
+"""Function to find twice strain energy at gauss points in Linear Elastic Problems."""
+function gaussTwiceLinStrainEnergy(passedData::T, solAtNodes::Array{Float64, 1}, problemDim::Int64, 
+    element::AbstractElement, elementNo::Int64, shapeFunction::Array{ShapeFunction}, 
+    coordArray::Array{Float64, 2}; kwargs4function...) where T
+
+    noOfIpPoints = getNoOfElementIpPoints(shapeFunction)
+    #noOfNodes = getNoOfElementNodes(shapeFunction)
+    C = passedData
+    ϵ = zeros(noOfIpPoints, 3, 3)
+    u_Nodes = solAtNodes
+    for ipNo::Int64 = 1:noOfIpPoints
+        ∂X_∂ξ = get_∂x_∂ξ(coordArray, shapeFunction, ipNo)
+        ∂ϕ_∂X = get_∂ϕ_∂x(element, ∂X_∂ξ, shapeFunction, ipNo)
+        ∂u_∂X = get_∂u_∂x(u_Nodes, ∂ϕ_∂X, Int64(length(u_Nodes) / size(∂ϕ_∂X, 1)))
+        for l = 1:problemDim
+            for k = 1:problemDim
+                ϵ[ipNo, k, l] += 0.5 * (∂u_∂X[k, l] + ∂u_∂X[l, k])
+            end
+        end
+        @einsum σ[i,j] := C[i,j,k,l] * ϵ[k,l]
+    return dot(ϵ, σ)
 end
 
 """Function to create Elastic Tensor for Linear Elastic Isotropic Materials"""
