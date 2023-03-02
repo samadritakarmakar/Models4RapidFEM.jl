@@ -339,7 +339,7 @@ uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [[deps.RapidFEM]]
 deps = ["Arpack", "Combinatorics", "Documenter", "FEMSparse", "FastGaussQuadrature", "ForwardDiff", "IterativeSolvers", "LinearAlgebra", "Preconditioners", "SparseArrays", "WriteVTK"]
-git-tree-sha1 = "b9d52489300fe102bbb6f92f7ca5ab0c6a322e2a"
+git-tree-sha1 = "854761ede4cc04c55fc61290d187860ea7333284"
 repo-rev = "master"
 repo-url = "https://github.com/samadritakarmakar/RapidFEM.jl"
 uuid = "845bbcf8-0925-49a4-8eb3-5fd4eb0a75d5"
